@@ -1,5 +1,5 @@
 shinyUI(fluidPage(
-	titlePanel("Gapminder Shiny App"),
+	titlePanel("Gapminder Shiny app"),
 	
 	sidebarLayout(
 		sidebarPanel("Select year and country from Gapminder",
