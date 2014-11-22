@@ -2,9 +2,7 @@ library("plyr")
 library("dplyr")
 library("ggplot2")
 
-gdURL <- "http://tiny.cc/gapminder"
-gDat <- read.delim(file = gdURL)
-
+gDat <- read.delim(file = "data/gapminderDataFiveYear.tsv")
 
 shinyServer(function(input, output){
 
@@ -30,9 +28,10 @@ shinyServer(function(input, output){
 		one_country_data()
 	})
 	
-	# Render country input from UI as text
+	# Render country and range of years input from UI as text
 	output$output_country <- renderText({
-		paste("Country selected:", input$country_from_gapminder)
+		paste("GDP per capita for", input$country_from_gapminder,
+					min(input$year_range), "-", max(input$year_range))
 	})
 
 	# Print info on years selected to console (renderPrint prints to UI)
@@ -46,6 +45,8 @@ shinyServer(function(input, output){
 			return(NULL)
 		}
 		ggplot(one_country_data(), aes(x = year, y = gdpPercap, colour = country)) +
-			geom_line()
+			geom_line() +
+			ylab("GDP per capita") +
+			xlab("Year")
 	})
 })

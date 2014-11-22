@@ -2,7 +2,7 @@ shinyUI(fluidPage(
 	titlePanel("Gapminder Shiny app"),
 	
 	sidebarLayout(
-		sidebarPanel("Select year and country from Gapminder",
+		sidebarPanel("Select 'Country' and 'Range of years' from Gapminder:",
 								 uiOutput("choose_country"),
 # 								 selectInput("select_country",
 # 								 						label = "Country",
@@ -16,7 +16,7 @@ shinyUI(fluidPage(
 								 						step = 5)
 								 ),
 		mainPanel(#"My cool graphs will go here",
-							h2(textOutput("output_country")),
+							h3(textOutput("output_country")),
 							textOutput("info"),
 							plotOutput("ggplot_gdpPercap_vs_country"),
 							tableOutput("gapminder_table"))
