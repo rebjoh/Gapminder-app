@@ -2,21 +2,32 @@ shinyUI(fluidPage(
 	titlePanel("Gapminder Shiny app"),
 	
 	sidebarLayout(
-		sidebarPanel("Select 'Country' and 'Range of years' from Gapminder:",
+		sidebarPanel("Choose an indicator, two countries, and a year range to 
+								 compare indicators between two countries graphically:",
+								 radioButtons("variable_from_gapminder",
+								 						 label = h5("Variable"),
+								 						 choices = c("Population" = "pop",
+								 						 						"Life Expectancy" = "lifeExp",
+								 						 						"GDP Per Capita" = "gdpPercap"),
+								 						 selected = "pop"),
+# 								 uiOutput("choose_variable"),
+								 hr(),
 								 uiOutput("choose_country"),
+								 hr(),
 								 uiOutput("choose_country_2"),
+								 hr(),
 								 sliderInput("year_range",
-								 						label = "Range of years:",
+								 						label = h5("Range of years:"),
 								 						min = 1952,
 								 						max = 2007,
 								 						value = c(1952, 2007), 
 								 						format = "####", 
-								 						step = 5)
-								 ),
-		mainPanel(#"My cool graphs will go here",
-							h3(textOutput("output_countries_years")),
+								 						step = 5)),
+		mainPanel(h3(textOutput("output_countries_years")),
+							textOutput("info_variable"),
 							textOutput("info"),
-							plotOutput("ggplot_gdpPercap_vs_two_countries"),
+							textOutput("more_info"),
+							plotOutput("ggplot_variable_vs_two_countries"),
 							tableOutput("gapminder_table"))
 		)
 	))
