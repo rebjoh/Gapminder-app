@@ -32,12 +32,13 @@ shinyServer(function(input, output){
 		if(is.null(input$country_2_from_gapminder)){
 			return(NULL)
 		}
+		
 		gDat %>%
 			select(country, year, continent, 
 						 matches(input$variable_from_gapminder)) %>%
-			filter(country == input$country_from_gapminder | 
+			filter(country == input$country_from_gapminder |
 						 	country == input$country_2_from_gapminder,
-						 year >= min(input$year_range) |
+						 year >= min(input$year_range) &
 						 year <= max(input$year_range)) 
 	})
 
@@ -54,9 +55,6 @@ shinyServer(function(input, output){
 		})
 
 	# Print info on years selected to console (renderPrint prints to UI)
-	output$info_variable <- renderText({
-		str(input$variable_from_gapminder)
-	})
 	output$info <- renderText({
 		str(input$year_range)
 		})
@@ -64,26 +62,16 @@ shinyServer(function(input, output){
 	output$more_info <- renderText({
 		str(two_country_data())
 	})
-	
+
 	# Render ggplot plot based on variable input from radioButtons
 	output$ggplot_variable_vs_two_countries <- renderPlot({
-		ggplot(two_country_data(), aes(x = year,
-																	 y = input$variable_from_gapminder,
-																	 colour = country)) +
+
+		# Add aes_string argument for input from radioButtons, see:
+		# https://groups.google.com/forum/#!topic/shiny-discuss/Ds2CKVfC4-Q
+		ggplot(two_country_data(), aes_string(x = "year",
+																					y = input$variable_from_gapminder,
+																					colour = "country")) +
 			geom_line() +
 			xlab("Year")
 		})
 })
-# 	# Save ggplot as a variable within a reactive function?
-# 	ggplot_variable_two_countries <- reactive ({
-# 		ggplot(two_country_data(), aes(x = year, 
-# 																	 y = input$variable_from_gapminder,
-# 																	 colour = country)) +
-# 			geom_line() +
-# 			xlab("Year") #quoted = TRUE
-# 	})
-# 
-# 	# Render reactive plot
-# 	output$ggplot_variable_vs_two_countries <- renderPlot({
-# 		ggplot_variable_two_countries()
-# 	})
