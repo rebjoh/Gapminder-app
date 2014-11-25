@@ -68,8 +68,7 @@ shinyServer(function(input, output){
 	# Render ggplot plot based on variable input from radioButtons
 	output$ggplot_variable_vs_two_countries <- renderPlot({
 		ggplot(two_country_data(), aes(x = year,
-																	 y = substitute(col, 
-																	 							 list(col = as.symbol(input$variable_from_gapminder))),
+																	 y = input$variable_from_gapminder,
 																	 colour = country)) +
 			geom_line() +
 			xlab("Year")
