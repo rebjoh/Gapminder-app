@@ -36,11 +36,11 @@ shinyServer(function(input, output){
 		gDat %>%
 			select(country, year, continent, 
 						 matches(input$variable_from_gapminder)) %>%
-			filter(country == input$country_from_gapminder |
-						 	country == input$country_2_from_gapminder,
+			filter(country %in% c(input$country_from_gapminder, 
+														input$country_2_from_gapminder),
 						 year >= min(input$year_range) &
-						 year <= max(input$year_range)) 
-	})
+						 	year <= max(input$year_range))
+		})
 
 	# Render two countries and year input from UI as a table
 	output$gapminder_table <- renderTable({
