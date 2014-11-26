@@ -31,7 +31,7 @@ shinyUI(fluidPage(
 							textOutput("more_info"),
 							plotOutput("ggplot_variable_vs_two_countries"),
 							hr(),
-							h3("Table of results"),
+							h3("Tabulated results"),
 							tableOutput("gapminder_table"))
 		)
 	))

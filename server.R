@@ -9,6 +9,10 @@ library("ggplot2")
 # Load Gapminder data
 gDat <- read.delim(file = "data/gapminderDataFiveYear.tsv")
 
+# Make population and life exp variables in gDat more readable
+gDat$pop <- gDat$pop/1000000 
+gDat$lifeExp <- round(gDat$lifeExp)
+
 # Define server functionality
 shinyServer(function(input, output){
 
@@ -78,9 +82,9 @@ shinyServer(function(input, output){
 			return(NULL)
 		}
 		
-		if(input$variable_from_gapminder == "pop") y_axis_label <- "Population"
-		if(input$variable_from_gapminder == "lifeExp") y_axis_label <- "Life Expectancy"
-		if(input$variable_from_gapminder == "gdpPercap") y_axis_label <- "GDP Per Capita"
+		if(input$variable_from_gapminder == "pop") y_axis_label <- "Population (millions)"
+		if(input$variable_from_gapminder == "lifeExp") y_axis_label <- "Life Expectancy (years)"
+		if(input$variable_from_gapminder == "gdpPercap") y_axis_label <- "GDP Per Capita, PPP (fixed 2005 international $)"
 
 		# Add aes_string argument for input from radioButtons, see:
 		# https://groups.google.com/forum/#!topic/shiny-discuss/Ds2CKVfC4-Q
