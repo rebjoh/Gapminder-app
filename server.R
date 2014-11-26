@@ -1,15 +1,21 @@
+# server.R
+# Rebecca Johnston
+
+# Load required libraries
 library("plyr")
 library("dplyr")
 library("ggplot2")
 
+# Load Gapminder data
 gDat <- read.delim(file = "data/gapminderDataFiveYear.tsv")
 
+# Define server functionality
 shinyServer(function(input, output){
 
 	# Create drop-down selection for country generated from Gapminder dataset
 	output$choose_country <- renderUI({
 		selectInput("country_from_gapminder",
-								h5("First country"),
+								h5("First country:"),
 								levels(gDat$country),
 								selected = "Canada")
 		})
@@ -18,7 +24,7 @@ shinyServer(function(input, output){
 	# Exclude "country_from_gapminder" as an option
 	output$choose_country_2 <- renderUI({
 		selectInput("country_2_from_gapminder",
-								h5("Second country"),
+								h5("Second country:"),
 								levels(gDat$country)[levels(gDat$country) != 
 																		 	input$country_from_gapminder],
 								selected = "Australia")
@@ -26,9 +32,11 @@ shinyServer(function(input, output){
 
 	# Add reactive function for two countries and year input from UI
 	two_country_data <- reactive({
+
 		if(is.null(input$country_from_gapminder)){
 			return(NULL)
 		}
+		
 		if(is.null(input$country_2_from_gapminder)){
 			return(NULL)
 		}
@@ -56,7 +64,7 @@ shinyServer(function(input, output){
 
 	# Print info on years selected to console (renderPrint prints to UI)
 	output$info <- renderText({
-		str(input$year_range)
+		str(two_country_data()$year)
 		})
 
 	output$more_info <- renderText({
@@ -65,13 +73,22 @@ shinyServer(function(input, output){
 
 	# Render ggplot plot based on variable input from radioButtons
 	output$ggplot_variable_vs_two_countries <- renderPlot({
+		
+		if(is.null(two_country_data()$year)){
+			return(NULL)
+		}
+		
+		if(input$variable_from_gapminder == "pop") y_axis_label <- "Population"
+		if(input$variable_from_gapminder == "lifeExp") y_axis_label <- "Life Expectancy"
+		if(input$variable_from_gapminder == "gdpPercap") y_axis_label <- "GDP Per Capita"
 
 		# Add aes_string argument for input from radioButtons, see:
 		# https://groups.google.com/forum/#!topic/shiny-discuss/Ds2CKVfC4-Q
 		ggplot(two_country_data(), aes_string(x = "year",
 																					y = input$variable_from_gapminder,
 																					colour = "country")) +
-			geom_line() +
-			xlab("Year")
+			geom_line(size = 1) +
+			xlab("Year") +
+			ylab(y_axis_label)
 		})
 })
