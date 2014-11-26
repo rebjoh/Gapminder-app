@@ -3,7 +3,7 @@ Gapminder-app
 
 Shiny application for viewing Gapminder data.
 
-* View [Gapminder Shiny app](https://rebjoh.shinyapps.io/Gapminder-app/)
+* View [Gapminder Shiny app](https://rebjoh.shinyapps.io/Gapminder-app/) hosted by `shinyapps.io`
 * View code: [server.R](https://github.com/rebjoh/Gapminder-app/blob/master/server.R) and [ui.R](https://github.com/rebjoh/Gapminder-app/blob/master/ui.R)
 
 ## Reflections
