@@ -21,7 +21,7 @@ shinyServer(function(input, output){
 		selectInput("country_from_gapminder",
 								h5("First country:"),
 								levels(gDat$country),
-								selected = "Canada")
+								selected = "Australia")
 		})
 	
 	# Create drop-down selection for a 2nd country
@@ -31,7 +31,7 @@ shinyServer(function(input, output){
 								h5("Second country:"),
 								levels(gDat$country)[levels(gDat$country) != 
 																		 	input$country_from_gapminder],
-								selected = "Australia")
+								selected = "Canada")
 		})
 
 	# Add reactive function for two countries and year input from UI
